@@ -1,0 +1,95 @@
+[
+    {
+        "id": "5bec06cb39d49f45",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "179e522e52918087",
+        "type": "http in",
+        "z": "5bec06cb39d49f45",
+        "name": "route parameter",
+        "url": "/api/sensor/:id",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "ddeb4aebe7b8f6d1",
+                "e6ebd7276c40e524"
+            ]
+        ]
+    },
+    {
+        "id": "f306128bcf4efd99",
+        "type": "http in",
+        "z": "5bec06cb39d49f45",
+        "name": "query string",
+        "url": "/api/telemetry",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 280,
+        "wires": [
+            [
+                "ddeb4aebe7b8f6d1",
+                "e6ebd7276c40e524"
+            ]
+        ]
+    },
+    {
+        "id": "ddeb4aebe7b8f6d1",
+        "type": "debug",
+        "z": "5bec06cb39d49f45",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 650,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e6ebd7276c40e524",
+        "type": "http response",
+        "z": "5bec06cb39d49f45",
+        "name": "response",
+        "statusCode": "",
+        "headers": {},
+        "x": 360,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c7255d82c5c1b48f",
+        "type": "http in",
+        "z": "5bec06cb39d49f45",
+        "name": "authentication",
+        "url": "/api/secure-data",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 380,
+        "wires": [
+            [
+                "e6ebd7276c40e524",
+                "ddeb4aebe7b8f6d1"
+            ]
+        ]
+    }
+]

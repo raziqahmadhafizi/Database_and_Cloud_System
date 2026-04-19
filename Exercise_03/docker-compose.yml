@@ -1,0 +1,14 @@
+# Exercise 3: Packet Inspection & URL Metadata
+
+## Objective
+To design Node-RED endpoints that process URL parameters and queries, and to use Wireshark for inspecting raw HTTP transmissions.
+
+## Key Learnings
+- **Route Parameters**: Used `/api/sensor/:id` to capture specific sensor IDs.
+- **Query Strings**: Used `/api/telemetry` to handle filtering data (e.g., location, status).
+- **Security Analysis**: Captured HTTP POST packets using Wireshark and identified that sensitive data (Bearer Tokens) are visible in plain text over standard HTTP.
+
+## Tools Used
+- Node-RED (Docker)
+- Postman
+- Wireshark (Loopback Adapter)
