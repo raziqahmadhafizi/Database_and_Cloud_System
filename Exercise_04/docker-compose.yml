@@ -1,0 +1,13 @@
+services:
+  emqx:
+    image: emqx/emqx:latest
+    container_name: emqx
+    ports:
+      - "18083:18083" # Dashboard
+      - "1883:1883"   # MQTT Broker
+      - "8083:8083"   # WebSocket
+      - "8080:8080"   # Management API
+    volumes:
+      - ./emqx_data:/opt/emqx/data
+      - ./emqx_log:/opt/emqx/log
+    restart: always
