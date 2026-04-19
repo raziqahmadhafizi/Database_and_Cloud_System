@@ -1,0 +1,115 @@
+[
+    {
+        "id": "881cffe7f8bbcb43",
+        "type": "tab",
+        "label": "Flow 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "587d115d6da21170",
+        "type": "debug",
+        "z": "881cffe7f8bbcb43",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "92a6a168c5c25592",
+        "type": "mqtt in",
+        "z": "881cffe7f8bbcb43",
+        "name": "",
+        "topic": "campus/qos/test",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e5978a3ae8af5d7c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 200,
+        "wires": [
+            [
+                "587d115d6da21170"
+            ]
+        ]
+    },
+    {
+        "id": "44617dfc40c3bcb6",
+        "type": "debug",
+        "z": "881cffe7f8bbcb43",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "ec78b13e9f845f02",
+        "type": "mqtt in",
+        "z": "881cffe7f8bbcb43",
+        "name": "",
+        "topic": "campus/state/door",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e5978a3ae8af5d7c",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 380,
+        "wires": [
+            [
+                "44617dfc40c3bcb6"
+            ]
+        ]
+    },
+    {
+        "id": "e5978a3ae8af5d7c",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "host.docker.internal",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
