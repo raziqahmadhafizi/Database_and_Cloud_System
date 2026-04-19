@@ -1,0 +1,106 @@
+[
+    {
+        "id": "fc117014530f12b8",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e8306c0c057424e4",
+        "type": "http in",
+        "z": "fc117014530f12b8",
+        "name": "Receive Telemetry",
+        "url": "/api/sensor",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "38990c879a7f76c2",
+                "afbf9230ef4b2645"
+            ]
+        ]
+    },
+    {
+        "id": "38990c879a7f76c2",
+        "type": "http response",
+        "z": "fc117014530f12b8",
+        "name": "Response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 400,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "afbf9230ef4b2645",
+        "type": "debug",
+        "z": "fc117014530f12b8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "5d6aaeb97a11e279",
+        "type": "http in",
+        "z": "fc117014530f12b8",
+        "name": "Receive Telemetry 2",
+        "url": "/api/sensor_get",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "4f5ad74fecabb73b"
+            ]
+        ]
+    },
+    {
+        "id": "4f5ad74fecabb73b",
+        "type": "function",
+        "z": "fc117014530f12b8",
+        "name": "function 1",
+        "func": "msg.payload = { \"status\": \"Berjaya akses GET!\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 260,
+        "wires": [
+            [
+                "b247df2eb0c623c8"
+            ]
+        ]
+    },
+    {
+        "id": "b247df2eb0c623c8",
+        "type": "http response",
+        "z": "fc117014530f12b8",
+        "name": "Response 2",
+        "statusCode": "200",
+        "headers": {},
+        "x": 590,
+        "y": 260,
+        "wires": []
+    }
+]
