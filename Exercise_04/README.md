@@ -1,56 +1,45 @@
-# 🚀 Exercise 4: MQTT Publish/Subscribe Architecture
+# Exercise 4: MQTT Publish/Subscribe Architecture
 
 ## 🎯 Objective
-[cite_start]To deploy an enterprise-grade **MQTT broker (EMQX)** locally via Docker, configure **Node-RED** as an automated MQTT publishing client, and utilize **Postman** as an MQTT subscribing client to explore event-driven communication[cite: 313].
-
----
+[cite_start]To deploy an enterprise-grade MQTT broker (EMQX) locally via Docker, configure Node-RED as an automated MQTT publishing client, and utilize Postman as an MQTT subscribing client to explore event-driven communication[cite: 313].
 
 ## 🛠️ Tools & Technologies
-
-* [cite_start]💻 **Docker Desktop**: Used to host the EMQX Broker container in a localized environment [cite: 314-315].
-* [cite_start]🐝 **EMQX Broker**: An enterprise-grade MQTT message broker for efficient message distribution[cite: 313, 369].
-* [cite_start]🔴 **Node-RED**: Configured as the **IoT Edge Publisher** to simulate sensor data[cite: 380].
-* [cite_start]🚀 **Postman**: Utilized as the **MQTT Subscriber** to monitor real-time data streams [cite: 427-428, 461].
-
----
+* [cite_start]**Docker Desktop**: To host the EMQX Broker container [cite: 314-315].
+* [cite_start]**EMQX Broker**: An enterprise-grade MQTT message broker[cite: 313, 369].
+* [cite_start]**Node-RED**: Acting as the IoT Edge Publisher[cite: 380].
+* [cite_start]**Postman**: Acting as the MQTT Subscriber (BETA feature) [cite: 427-428, 461].
 
 ## 📦 Docker Configuration
-
-The EMQX broker was deployed using **Docker Compose** with the following critical port mappings:
-
-| Port | Description |
-| :--- | :--- |
-| `18083` | [cite_start]**EMQX Dashboard Management** (Web UI) [cite: 330, 365] |
-| `1883` | [cite_start]**Standard MQTT Protocol** (Connection Port) [cite: 332] |
-
----
+The EMQX broker was deployed using Docker Compose with the following port mappings:
+* [cite_start]**18083**: EMQX Dashboard Management[cite: 330, 365].
+* [cite_start]**1883**: Standard MQTT protocol[cite: 332].
 
 ## 📡 MQTT Implementation Details
 
-### 1️⃣ Publisher (Node-RED)
-[cite_start]Node-RED was programmed to act as an IoT device publishing JSON telemetry data periodically [cite: 380-381]:
-* [cite_start]**Topic**: `campus/lab1/temperature` [cite: 405]
-* [cite_start]**Payload**: `{"temperature": 25.5, "sensor": "ESP32_01"}` [cite: 383]
-* [cite_start]**Interval**: Automatic publish every **5 seconds**[cite: 383, 399].
+### 1. Publisher (Node-RED)
+[cite_start]Node-RED was configured to simulate an IoT device publishing JSON telemetry data every 5 seconds[cite: 383]:
+* [cite_start]**Topic**: `campus/lab1/temperature`[cite: 405, 413].
+* [cite_start]**Payload**: `{"temperature": 25.5, "sensor": "ESP32_01"}`[cite: 383, 393].
 
-### 2️⃣ Subscriber (Postman)
-[cite_start]Postman connected to the broker via `mqtt://localhost:1883` to listen for incoming messages[cite: 463, 469]:
-* [cite_start]Successful real-time data reception was confirmed in the **Message Stream** window [cite: 504-505].
+### 2. Subscriber (Postman)
+[cite_start]Postman was utilized to subscribe to the topic `campus/lab1/temperature` using the broker URL `mqtt://localhost:1883` [cite: 463, 467-469]. [cite_start]Real-time data streams were successfully observed in the Postman message window [cite: 504-505].
 
-### 3️⃣ Topic Hierarchies & Wildcards
-[cite_start]Experimental topic filtering was performed using wildcards [cite: 506-507]:
-* [cite_start]**Multi-Level (`#`)**: Subscribing to `campus/#` captured data from all sub-topics under the campus hierarchy [cite: 515-517].
-* [cite_start]**Single-Level (`+`)**: Subscribing to `campus/+/temperature` filtered data from specific labs but excluded other data types like humidity [cite: 520-522].
-
----
+### 3. Topic Hierarchies & Wildcards
+[cite_start]Experiments were conducted using MQTT wildcards to demonstrate efficient data filtering [cite: 506-507]:
+* [cite_start]**Multi-Level Wildcard (`#`)**: Subscribing to `campus/#` allowed receiving messages from all sub-topics including `lab1/temperature`, `lab2/temperature`, and `lab1/humidity` [cite: 515-517].
+* [cite_start]**Single-Level Wildcard (`+`)**: Subscribing to `campus/+/temperature` allowed receiving data from `lab1` and `lab2` temperature sensors but filtered out the `humidity` topic [cite: 520-522].
 
 ## 🧠 Architectural Analysis
 
-> **Q1: The Role of the Broker**
-> [cite_start]Unlike the direct request-response model of HTTP, MQTT uses a central mediator known as a broker [cite: 526-527]. [cite_start]The broker allows for **decoupled communication**, making it significantly more lightweight and efficient for low-power IoT devices[cite: 528].
+### Q1: The Role of the MQTT Broker
+[cite_start]Unlike HTTP's direct client-to-server model, MQTT utilizes a broker as a central mediator [cite: 526-527]. 
+* [cite_start]**Advantage**: MQTT is a lightweight messaging protocol[cite: 461]. [cite_start]It is more efficient for IoT devices due to low bandwidth overhead and its ability to handle intermittent connectivity better than HTTP[cite: 528].
 
-> **Q2: Publisher vs. Subscriber**
-> [cite_start]A **Publisher** sends data to a topic, while a **Subscriber** receives data from topics it is interested in [cite: 529-530]. [cite_start]An IoT device can perform **both roles simultaneously**, such as publishing sensor data and subscribing to control commands from a server [cite: 531-532].
+### Q2: Publisher vs. Subscriber Roles
+* [cite_start]**Publisher**: The entity that sends data to a specific topic on the broker[cite: 530].
+* [cite_start]**Subscriber**: The entity that listens for and receives data from specific topics via the broker[cite: 530].
+* [cite_start]**Dual Role**: A single IoT device (e.g., ESP32) can be both a publisher and a subscriber simultaneously[cite: 531]. 
+* [cite_start]**Real-world Example**: A smart thermostat publishes temperature data to a broker while simultaneously subscribing to a "control" topic to receive remote settings or updates[cite: 532].
 
-> **Q3: Client Disconnection**
-> [cite_start]In MQTT, if a subscriber disconnects, incoming data is typically lost unless features like **QoS (Quality of Service)** or **Retained Messages** are used by the broker to store the latest information for the client [cite: 535-536].
+### Q3: Client Disconnection Handling
+[cite_start]In a standard MQTT setup, if a subscriber (Postman) disconnects while a publisher (Node-RED) continues to send data, the data is typically lost unless specific features like **QoS (Quality of Service)** or **Retained Messages** are configured to store the last known value at the broker [cite: 535-536].
