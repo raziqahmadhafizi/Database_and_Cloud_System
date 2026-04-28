@@ -1,0 +1,298 @@
+[
+    {
+        "id": "c8da9b0afa885da8",
+        "type": "tab",
+        "label": "Flow 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6da665f86688c13b",
+        "type": "http in",
+        "z": "c8da9b0afa885da8",
+        "name": "post",
+        "url": "/api/sensor",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 120,
+        "wires": [
+            [
+                "7c86bbd1dc42ea0a"
+            ]
+        ]
+    },
+    {
+        "id": "5a5beb99e6bb5c68",
+        "type": "http response",
+        "z": "c8da9b0afa885da8",
+        "name": "response",
+        "statusCode": "",
+        "headers": {},
+        "x": 760,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "28aa48eac660ca0c",
+        "type": "http in",
+        "z": "c8da9b0afa885da8",
+        "name": "get",
+        "url": "/api/telemetry",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 280,
+        "wires": [
+            [
+                "adb32b2e1870ac0c"
+            ]
+        ]
+    },
+    {
+        "id": "adb32b2e1870ac0c",
+        "type": "function",
+        "z": "c8da9b0afa885da8",
+        "name": "function 2",
+        "func": "msg.payload = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "9bb8b1fd4525a32f"
+            ]
+        ]
+    },
+    {
+        "id": "280f16d24b9999ea",
+        "type": "http in",
+        "z": "c8da9b0afa885da8",
+        "name": "put",
+        "url": "/api/sensor",
+        "method": "put",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 400,
+        "wires": [
+            [
+                "aeeb7d97ac2dfb74"
+            ]
+        ]
+    },
+    {
+        "id": "aeeb7d97ac2dfb74",
+        "type": "function",
+        "z": "c8da9b0afa885da8",
+        "name": "function 3",
+        "func": "msg.payload = [\n    { \"device_id\": \"ESP_01\" },           // Cari sensor ni \n    { \"$set\": { \"status\": \"inactive\" } } // Tukar status dia \n];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 400,
+        "wires": [
+            [
+                "7a6fa40f2778e65c"
+            ]
+        ]
+    },
+    {
+        "id": "a114421816347b83",
+        "type": "http in",
+        "z": "c8da9b0afa885da8",
+        "name": "delete",
+        "url": "/api/sensor",
+        "method": "delete",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 500,
+        "wires": [
+            [
+                "501aeeaa10f756bb"
+            ]
+        ]
+    },
+    {
+        "id": "501aeeaa10f756bb",
+        "type": "function",
+        "z": "c8da9b0afa885da8",
+        "name": "function 4",
+        "func": "// Guna ID peranti yang spesifik supaya tak terpadam data lain\nmsg.payload = { \"device_id\": \"ESP_18\" };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 500,
+        "wires": [
+            [
+                "56b1c38d37d1713f"
+            ]
+        ]
+    },
+    {
+        "id": "7c86bbd1dc42ea0a",
+        "type": "mongodb4",
+        "z": "c8da9b0afa885da8",
+        "clientNode": "c026419569adb3fe",
+        "mode": "collection",
+        "collection": "sensor_data",
+        "operation": "insertOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 440,
+        "y": 120,
+        "wires": [
+            [
+                "5a5beb99e6bb5c68"
+            ]
+        ]
+    },
+    {
+        "id": "9bb8b1fd4525a32f",
+        "type": "mongodb4",
+        "z": "c8da9b0afa885da8",
+        "clientNode": "c026419569adb3fe",
+        "mode": "collection",
+        "collection": "sensor_data",
+        "operation": "find",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 610,
+        "y": 280,
+        "wires": [
+            [
+                "50a4caf5a4c5a7d8"
+            ]
+        ]
+    },
+    {
+        "id": "7a6fa40f2778e65c",
+        "type": "mongodb4",
+        "z": "c8da9b0afa885da8",
+        "clientNode": "c026419569adb3fe",
+        "mode": "collection",
+        "collection": "sensor_data",
+        "operation": "updateOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [
+                "fbcadfbe82f73bb6"
+            ]
+        ]
+    },
+    {
+        "id": "fbcadfbe82f73bb6",
+        "type": "http response",
+        "z": "c8da9b0afa885da8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 850,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "56b1c38d37d1713f",
+        "type": "mongodb4",
+        "z": "c8da9b0afa885da8",
+        "clientNode": "c026419569adb3fe",
+        "mode": "collection",
+        "collection": "sensor_data",
+        "operation": "deleteOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 590,
+        "y": 500,
+        "wires": [
+            [
+                "c4f4798d0d91d06e"
+            ]
+        ]
+    },
+    {
+        "id": "c4f4798d0d91d06e",
+        "type": "http response",
+        "z": "c8da9b0afa885da8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 810,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "50a4caf5a4c5a7d8",
+        "type": "http response",
+        "z": "c8da9b0afa885da8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 810,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c026419569adb3fe",
+        "type": "mongodb4-client",
+        "name": "",
+        "protocol": "mongodb",
+        "hostname": "",
+        "port": "",
+        "dbName": "smart_campus",
+        "appName": "",
+        "authSource": "",
+        "authMechanism": "DEFAULT",
+        "tls": false,
+        "tlsCAFile": "",
+        "tlsCertificateKeyFile": "",
+        "tlsInsecure": false,
+        "connectTimeoutMS": "30000",
+        "socketTimeoutMS": "0",
+        "minPoolSize": "0",
+        "maxPoolSize": "100",
+        "maxIdleTimeMS": "0",
+        "uri": "mongodb://host.docker.internal:27017/smart_campus?directConnection=true",
+        "advanced": "{}",
+        "uriTabActive": "tab-uri-advanced"
+    },
+    {
+        "id": "474faf781353faa7",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-mongodb4": "3.4.0"
+        }
+    }
+]
